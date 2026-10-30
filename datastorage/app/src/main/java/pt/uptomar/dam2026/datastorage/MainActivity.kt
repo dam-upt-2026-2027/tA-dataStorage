@@ -43,6 +43,65 @@ class MainActivity : AppCompatActivity() {
             readSharedPreferences()
         }
 
+        // Task 2 - Shared Preferences with multiple files
+        viewBinding.btWrite2.setOnClickListener {
+            // write the text that user had written to shared Preferences
+            writeSharedPreferencesMultiFiles()
+            // hide the keyboard
+            hideTheKeyboard(it)
+        }
+
+        viewBinding.btRead2.setOnClickListener {
+            // read the shared Preferences data
+            readSharedPreferencesMultiFiles()
+        }
+
+    }
+
+    /**
+     * read data from multiple files, using Shared Preferences
+     */
+    private fun readSharedPreferencesMultiFiles() {
+        val sharedPreferencesNome = getSharedPreferences("nomes.dat", MODE_PRIVATE)
+        val sharedPreferencesIdade = getSharedPreferences("idades.dat", MODE_PRIVATE)
+        // ler o conteúdo da Shared Preferences. Se não for possível a leitura, devolve um texto alternativo
+        // estou a usar o método getString() porque guardei 'texto'. Outros tipos de dados,
+        // implicam outros métodos
+        val nome = sharedPreferencesNome.getString("NOME", getString(R.string.txt_vazio))
+        val idade = sharedPreferencesIdade.getInt("IDADE", 0)
+
+        // usar os dados lidos
+        Snackbar.make(
+            viewBinding.root,
+            "Você chama-se ${nome.toString().uppercase()} e tem $idade anos!",
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+    /**
+     * write data on multiple files using Shared Preferences
+     */
+    private fun writeSharedPreferencesMultiFiles() {
+        val sharedPreferencesNomes = getSharedPreferences("nomes.dat", MODE_PRIVATE)
+        val sharedPreferencesIdades = getSharedPreferences("idades.dat", MODE_PRIVATE)
+
+        val editorNomes: SharedPreferences.Editor = sharedPreferencesNomes.edit()
+        val editorIdades: SharedPreferences.Editor = sharedPreferencesIdades.edit()
+
+        // colocar o conteúdo que o utilizador escreveu nas Shared Preferences
+        // Os dados são sempre escritos no formato: 'Variável'+'valor'
+        // usa-se o método putXXXXX, onde XXXXX significa String, Int, Double, etc.
+        editorNomes.putString("NOME", viewBinding.editText2a.text.toString())
+        editorIdades.putInt(
+            "IDADE",
+            viewBinding.editText2b.text.toString().toIntOrNull() ?: 0
+        ) // se a Idade=NULL, coloca 0
+        // guardar as alterações
+        editorNomes.commit()  // eventualmente, <=>   editorNomes.apply()
+        editorIdades.commit()
+
+        // neste caso, vamos mostrar uma mensagem de 'conforto' ao utilizador
+        Toast.makeText(this, getString(R.string.dados_guardados), Toast.LENGTH_SHORT).show()
     }
 
     /**

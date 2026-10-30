@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -10,11 +8,10 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:text="@string/app_name"
         style="@style/titulo_seccao"
+        android:text="@string/app_name"
         android:textSize="30sp"
-        android:textStyle="bold|italic"
-        />
+        android:textStyle="bold|italic" />
 
     <!-- Tarefa 1 - Shared Preferences -->
     <LinearLayout style="@style/contentor_geral">
@@ -29,8 +26,8 @@
             android:id="@+id/editText1"
             style="@style/editText"
             android:hint="@string/sharedPrefencesEditText"
-            android:text=""
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="" />
 
         <LinearLayout style="@style/contentor_horizontal">
 
@@ -48,6 +45,46 @@
     </LinearLayout>
 
 
+    <!-- Tarefa 2 - Shared Preferences with  multiple files-->
+    <LinearLayout style="@style/contentor_geral">
+
+        <View style="@style/linha_separacao" />
+
+        <TextView
+            style="@style/titulo_seccao"
+            android:text="@string/shared_preferencesMultiFich" />
+
+        <LinearLayout style="@style/contentor_horizontal">
+            <EditText
+                android:id="@+id/editText2a"
+                style="@style/editText"
+                android:hint="@string/sharedPreferencesNome"
+                android:inputType="text"
+                android:text="" />
+
+            <EditText
+                android:id="@+id/editText2b"
+                style="@style/editText"
+                android:hint="@string/sharedPreferencesIdade"
+                android:inputType="number"
+                android:text="" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/contentor_horizontal">
+
+            <Button
+                android:id="@+id/btWrite2"
+                style="@style/buttonWrite"
+                android:text="@string/btWrite" />
+
+            <Button
+                android:id="@+id/btRead2"
+                style="@style/buttonRead"
+                android:text="@string/btRead" />
+
+        </LinearLayout>
+    </LinearLayout>
 
 
 </LinearLayout>
