@@ -19,5 +19,6 @@
     <string name="internal_storage_vazia">A internal storage está vazia</string>
     <string name="external_storage_vazia">A external storage está vazia</string>
     <string name="escritaErradaExternalStorage">Não consegui escrever na ExternalStorage</string>
+    <string name="textOne">Introduziu: %1$s</string>
 
 </resources>
