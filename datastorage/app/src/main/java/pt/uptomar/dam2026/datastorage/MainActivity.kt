@@ -51,30 +51,96 @@ class MainActivity : AppCompatActivity() {
 
         // Task 2 - Shared Preferences with multiple files
         viewBinding.btWrite2.setOnClickListener {
-            // write the text that user had written to shared Preferences
+            // write the text that user had written to shared Preferences multiple files
             writeSharedPreferencesMultiFiles()
             // hide the keyboard
             hideTheKeyboard(it)
         }
 
         viewBinding.btRead2.setOnClickListener {
-            // read the shared Preferences data
+            // read the shared Preferences data, from multiple files
             readSharedPreferencesMultiFiles()
         }
 
-        // Task 3 - Cach3
+        // Task 3 - Cache
         viewBinding.btWrite3.setOnClickListener {
-            // write the text that user had written to shared Preferences
+            // write the text that user had written to Cache
             writeCache()
             // hide the keyboard
             hideTheKeyboard(it)
         }
 
         viewBinding.btRead3.setOnClickListener {
-            // read the shared Preferences data
+            // read the cache data
             readCache()
         }
 
+
+        // Task 4 - Internal Storage
+        viewBinding.btWrite4.setOnClickListener {
+            // write the text that user had written to Internal Storage
+            writeInternalStorage()
+            // hide the keyboard
+            hideTheKeyboard(it)
+        }
+
+        viewBinding.btRead4.setOnClickListener {
+            // read the Internal Storage data
+            readInternalStorage()
+        }
+
+    }
+
+    /**
+     * read data from the Internal Storage
+     */
+    private fun readInternalStorage() {
+        val directory: File = filesDir
+        val file = File(directory, "dadosInternalStorage.txt")
+        try {
+            val fi = FileInputStream(file)
+            val sc = Scanner(fi)
+            val nome = sc.nextLine()
+            val idade = sc.nextLine()
+            sc.close()
+            fi.close()
+
+            // mostrar os dados
+            Snackbar.make(
+                viewBinding.root,
+                "Você chama-se ${
+                    nome.toString().uppercase()
+                } e tem $idade anos! - Internal Storage",
+                Snackbar.LENGTH_LONG
+            ).show()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, getString(R.string.internal_storage_vazia), Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+    /**
+     * Write data on the Internal Storage
+     */
+    private fun writeInternalStorage() {
+        // endereço da pasta onde será gerado o ficheiro
+        // associado à área de atuação da aplicação
+        val directory: File = filesDir
+        // nome do ficheiro na Internal Storage
+        val file: File = File(directory, "dadosInternalStorage.txt")
+        try {
+            val fo: FileOutputStream = FileOutputStream(file)
+            val ps: PrintStream = PrintStream(fo)
+            ps.println(viewBinding.editText4a.text)
+            ps.println(viewBinding.editText4b.text)
+            ps.close()
+            fo.close()
+
+            // neste caso, vamos mostrar uma mensagem de 'conforto' ao utilizador
+            Toast.makeText(this, getString(R.string.dados_guardados), Toast.LENGTH_SHORT).show()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, getString(R.string.escritaErradaCache), Toast.LENGTH_LONG).show()
+        }
     }
 
     /**
