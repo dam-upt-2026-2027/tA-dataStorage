@@ -2,6 +2,7 @@ package pt.uptomar.dam2026.datastorage
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -89,7 +90,86 @@ class MainActivity : AppCompatActivity() {
             readInternalStorage()
         }
 
+
+        // Task 5 - External Storage
+        viewBinding.btWrite5.setOnClickListener {
+            // write the text that user had written to External Storage
+            writeEXternalStorage()
+            // hide the keyboard
+            hideTheKeyboard(it)
+        }
+
+        viewBinding.btRead5.setOnClickListener {
+            // read the External Storage data
+            readExternalStorage()
+        }
+
     }
+
+
+    /**
+     * Read the data provided by user, from External Storage
+     */
+    private fun readExternalStorage() {
+        val directory: File = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)!!
+        val file = File(directory, "dadosExternalStorage.txt")
+        try {
+            val fi = FileInputStream(file)
+            val sc = Scanner(fi)
+            val nome = sc.nextLine()
+            val idade = sc.nextLine()
+            sc.close()
+            fi.close()
+
+            // mostrar os dados
+            Snackbar.make(
+                viewBinding.root,
+                "Você chama-se ${
+                    nome.toString().uppercase()
+                } e tem $idade anos! - External Storage",
+                Snackbar.LENGTH_LONG
+            ).show()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(this, getString(R.string.external_storage_vazia), Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+
+    /**
+     * Write data on External Storage
+     */
+    private fun writeEXternalStorage() {
+        /* if you are using Android lower than version 28
+         * you MUST ask for permission to use it
+         * you must add a annotation on the Manifest, and test if user give access to it
+         */
+
+        // endereço da pasta onde será gerado o ficheiro
+        // associado à área de atuação da aplicação
+        val directory: File = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)!!
+
+        // nome do ficheiro na External Storage
+        val file: File = File(directory, "dadosExternalStorage.txt")
+        try {
+            val fo: FileOutputStream = FileOutputStream(file)
+            val ps: PrintStream = PrintStream(fo)
+            ps.println(viewBinding.editText5a.text)
+            ps.println(viewBinding.editText5b.text)
+            ps.close()
+            fo.close()
+
+            // neste caso, vamos mostrar uma mensagem de 'conforto' ao utilizador
+            Toast.makeText(this, getString(R.string.dados_guardados), Toast.LENGTH_SHORT).show()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(
+                this,
+                getString(R.string.escritaErradaExternalStorage),
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
 
     /**
      * read data from the Internal Storage
@@ -139,7 +219,8 @@ class MainActivity : AppCompatActivity() {
             // neste caso, vamos mostrar uma mensagem de 'conforto' ao utilizador
             Toast.makeText(this, getString(R.string.dados_guardados), Toast.LENGTH_SHORT).show()
         } catch (e: FileNotFoundException) {
-            Toast.makeText(this, getString(R.string.escritaErradaCache), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.escritaErradaCache), Toast.LENGTH_LONG)
+                .show()
         }
     }
 
@@ -188,7 +269,8 @@ class MainActivity : AppCompatActivity() {
             // neste caso, vamos mostrar uma mensagem de 'conforto' ao utilizador
             Toast.makeText(this, getString(R.string.dados_guardados), Toast.LENGTH_SHORT).show()
         } catch (e: FileNotFoundException) {
-            Toast.makeText(this, getString(R.string.escritaErradaCache), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.escritaErradaCache), Toast.LENGTH_LONG)
+                .show()
         }
 
     }
